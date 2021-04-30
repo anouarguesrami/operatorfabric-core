@@ -1,4 +1,7 @@
 
+server:
+  forward-headers-strategy: framework
+  
 spring:
   application:
     name: cards-publication

@@ -6,6 +6,8 @@ spring:
   application:
     name: users
 
+server:
+  forward-headers-strategy: framework
 
 operatorfabric.users.default:
   users:

@@ -31,6 +31,11 @@ import org.springframework.security.oauth2.jwt.Jwt;
 @Profile(value = {"!test"})
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    public static final String AUTH_AND_IP_ALLOWED = "isAuthenticated() and @webSecurityChecks.checkUserIpAddress(authentication)";
+    public static final String IP_ALLOWED = "@webSecurityChecks.checkUserIpAddress(authentication)";
+
+    @Autowired
+    WebSecurityChecks webSecurityChecks;
 
     @Autowired
     private Converter<Jwt, AbstractAuthenticationToken> opfabJwtConverter;
@@ -48,9 +53,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public static void configureCommon(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/cards/userCard/**").authenticated()
-                .antMatchers("/**").permitAll();
+                .antMatchers("/cards/userCard/**").access(AUTH_AND_IP_ALLOWED)
+                .antMatchers("/**").access(IP_ALLOWED);
                 
     }
+
+    
 
 }

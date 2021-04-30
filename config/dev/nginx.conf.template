@@ -1,5 +1,6 @@
 # docker-compose DNS used to resolved keycloak services
 resolver 127.0.0.11 ipv6=off;
+
 server {
   listen 80;
   server_name localhost;
@@ -99,6 +100,7 @@ server {
     }
     proxy_set_header Host $http_host;
     proxy_pass http://${MY_DOCKER_HOST}:2100;
+    proxy_set_header X-Forwarded-For $remote_addr;
   }
 
   location /users {
@@ -116,6 +118,7 @@ server {
     }
     proxy_set_header Host $http_host;
     proxy_pass http://${MY_DOCKER_HOST}:2103/users;
+    proxy_set_header X-Forwarded-For $remote_addr;
   }
 
     location ~ "^/users/(.*)" {
@@ -133,6 +136,7 @@ server {
     }
     proxy_set_header Host $http_host;
     proxy_pass http://${MY_DOCKER_HOST}:2103/$1;
+    proxy_set_header X-Forwarded-For $remote_addr;
   }
 
 
@@ -151,6 +155,7 @@ server {
     }
     proxy_set_header Host $http_host;
     proxy_pass http://${MY_DOCKER_HOST}:2104/;
+    proxy_set_header X-Forwarded-For $remote_addr;
   }
   location  /cardspub/cards/userCard {
     # enables `ng serve` mode
@@ -167,6 +172,7 @@ server {
     }
     proxy_set_header Host $http_host;
     proxy_pass http://${MY_DOCKER_HOST}:2102/cards/userCard;
+    proxy_set_header X-Forwarded-For $remote_addr;
   }
   location  /cardspub/cards/userAcknowledgement {
     # enables `ng serve` mode
@@ -183,6 +189,7 @@ server {
     }
     proxy_set_header Host $http_host;
     proxy_pass http://${MY_DOCKER_HOST}:2102/cards/userAcknowledgement;
+    proxy_set_header X-Forwarded-For $remote_addr;
   }
   location /archives {
     # enables `ng serve` mode
@@ -199,6 +206,7 @@ server {
     }
     proxy_set_header Host $http_host;
     proxy_pass http://${MY_DOCKER_HOST}:2104;
+    proxy_set_header X-Forwarded-For $remote_addr;
   }
   error_page 500 502 503 504 /50x.html;
   location = /50x.html {

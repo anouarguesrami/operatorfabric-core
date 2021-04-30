@@ -3,7 +3,10 @@ spring:
   application:
     name: cards-consultation
 
+server:
+  forward-headers-strategy: framework
 
+  
 #here we put urls for all feign clients
 users:
   ribbon:

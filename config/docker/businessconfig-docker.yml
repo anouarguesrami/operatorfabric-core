@@ -3,6 +3,8 @@ spring:
   application:
     name: businessconfig
 
+server:
+  forward-headers-strategy: framework
 
 operatorfabric.businessconfig:
   storage:

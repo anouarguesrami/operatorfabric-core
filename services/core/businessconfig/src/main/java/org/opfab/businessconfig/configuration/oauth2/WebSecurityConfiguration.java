@@ -34,6 +34,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public static final String ADMIN_ROLE = "ADMIN";
     public static final String THIRDS_PATH = "/businessconfig/**";
     private static final String STYLE_URL_PATTERN = "/businessconfig/processes/*/css/*";
+
+    public static final String AUTH_AND_IP_ALLOWED = "isAuthenticated() and @webSecurityChecks.checkUserIpAddress(authentication)";
+    public static final String ADMIN_AND_IP_ALLOWED = "hasRole('ADMIN') and @webSecurityChecks.checkUserIpAddress(authentication)";
+
+    @Autowired
+    WebSecurityChecks webSecurityChecks;
     
     @Autowired
     private Converter<Jwt, AbstractAuthenticationToken> opfabJwtConverter;
@@ -52,10 +58,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,PROMETHEUS_PATH).permitAll() 
                 .antMatchers(STYLE_URL_PATTERN).permitAll() // Style is called via <style> , so no token is provided  (Static ressource)
-                .antMatchers(HttpMethod.POST, THIRDS_PATH).hasRole(ADMIN_ROLE)
-                .antMatchers(HttpMethod.PUT, THIRDS_PATH).hasRole(ADMIN_ROLE)
-                .antMatchers(HttpMethod.DELETE, THIRDS_PATH).hasRole(ADMIN_ROLE)
-                .anyRequest().authenticated()
+                .antMatchers(HttpMethod.POST, THIRDS_PATH).access(ADMIN_AND_IP_ALLOWED)
+                .antMatchers(HttpMethod.PUT, THIRDS_PATH).access(ADMIN_AND_IP_ALLOWED)
+                .antMatchers(HttpMethod.DELETE, THIRDS_PATH).access(ADMIN_AND_IP_ALLOWED)
+                .anyRequest().access(AUTH_AND_IP_ALLOWED)
         ;
                 
     }

@@ -35,7 +35,8 @@ public class WithMockOpFabUserSecurityContextFactory implements WithSecurityCont
                         customUser.firstName(),
                         customUser.lastName(),
                         Arrays.asList(customUser.roles()),
-                        Arrays.asList(customUser.entities()));
+                        Arrays.asList(customUser.entities()),
+                        Arrays.asList(customUser.authorizedIPAddresses()));
 
         Authentication auth = new UsernamePasswordAuthenticationToken(principal, "password", principal.getAuthorities());
 
