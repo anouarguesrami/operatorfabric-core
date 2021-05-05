@@ -24,7 +24,7 @@ import { ExportService } from '@ofServices/export.service';
 import { FlushLoggingResult, UpdateLoggingPage } from '@ofStore/actions/logging.actions';
 import { ConfigService } from '@ofServices/config.service';
 import { LoggingComponent } from '../../logging.component';
-import {ProcessesService} from "@ofServices/processes.service";
+import {ProcessesService} from '@ofServices/processes.service';
 
 
 @Component({
@@ -109,7 +109,7 @@ export class LoggingTableComponent implements OnInit, OnDestroy {
                                 [titleColumnName]: this.translateColumn(line.i18nKeyForTitle.key, line.i18nKeyForTitle.parameters),
                                 [summaryColumnName]: this.translateColumn(line.i18nKeyForSummary.key, line.i18nKeyForSummary.parameters),
                                 [descriptionColumnName]: !!this.processStateDescription.get(line.process + '.' + line.state) ? this.translateColumn(this.processStateDescription.get(line.process + '.' + line.state)) : '',
-                                [senderColumnName]: line.sender,
+                                [senderColumnName]: (! line.representative.length ? line.sender : line.representative),
                                 [processGroupColumnName]: this.translateColumn(this.processesService.findProcessGroupLabelForProcess(line.process))
                             });
                         else
@@ -118,7 +118,7 @@ export class LoggingTableComponent implements OnInit, OnDestroy {
                                 [titleColumnName]: this.translateColumn(line.i18nKeyForTitle.key, line.i18nKeyForTitle.parameters),
                                 [summaryColumnName]: this.translateColumn(line.i18nKeyForSummary.key, line.i18nKeyForSummary.parameters),
                                 [descriptionColumnName]: !!this.processStateDescription.get(line.process + '.' + line.state) ? this.translateColumn(this.processStateDescription.get(line.process + '.' + line.state)) : '',
-                                [senderColumnName]: line.sender
+                                [senderColumnName]: (! line.representative.length ? line.sender : line.representative)
                             });
                     }
                 });
